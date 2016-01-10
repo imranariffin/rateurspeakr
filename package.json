@@ -17,6 +17,10 @@
     "protractor": "^2.1.0",
     "shelljs": "^0.2.6"
   },
+  "engines" : {
+    "node" : "~0.6.x",
+    "npm" : "1.0.x"
+  },
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower install",
     "prestart": "npm install",
