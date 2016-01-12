@@ -1,0 +1,32 @@
+<div ng-controller='LoginCtrl'>
+	<form novalidate class="simple-form">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="input-group">
+				  <div class="input-group-addon" id="basic-addon1"></div>
+				  <div>
+				  	<input ng-model="username" type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+				  </div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="input-group">
+				  <div class="input-group-addon" id="basic-addon1"></div>
+				  <div>
+				  	<input ng-model="password" type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" name="password">
+				  </div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 btn-group btn-group-justified" role="group" aria-label="...">
+				<div class="btn-group" role="group" aria-label="...">
+				  <input ng-click="userLogin(user)" value="Login" type="button" class="btn btn-default"/>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" ng-model="_csrf" name="_csrf" value="crsfToken">
+	</form>
+</div>
