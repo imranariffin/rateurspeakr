@@ -25,6 +25,10 @@ config(['$routeProvider', function($routeProvider) {
   		templateUrl: 'views/me.html',
   		controller: 'MeCtrl'
   	}).
+  	when('/speakrs', {
+  		templateUrl: 'views/speakrs.html',
+  		controller: 'SpeakrsCtrl'
+  	}).
 
   	/* try CORS from local server api */
   	when('/get-cors', {
@@ -32,7 +36,8 @@ config(['$routeProvider', function($routeProvider) {
   		controller: 'CorsCtrl'
   	}).
 
+  	/* default routing is home */
   	otherwise({
-  		redirectTo: '/view1'
+  		redirectTo: '/'
   	});
 }]);
