@@ -3,11 +3,11 @@
 angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
 
 /* CONTROLLERS */
-.controller('HomeCtrl', ['$scope', function($scope) {
-  $scope.username = "imranariffin";
+.controller('HomeCtrl', ['$scope', '$cookieStore', function($scope, $cookieStore) {
+  $scope.user = $cookieStore.get('user');
 }])
-.controller('LoginCtrl', ['$scope', '$cookieStore', '$http', '$location', 
-  function($scope, $cookieStore, $http, $location) {
+.controller('LoginCtrl', ['$scope', '$cookieStore', '$http', '$location', '$window',
+  function($scope, $cookieStore, $http, $location, $window) {
     $scope.userLogin = function (user) {
       $cookieStore.put('signedin', 'true');
       console.log("user signing in ...");
@@ -15,20 +15,23 @@ angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
       $http({
           url:  apiurl + "/login",
           method: "POST",
-          // headers: {
-          //   'Content-Type': 'application/x-www-form-urlencoded'
-          // },
           data: {
               username: $scope.username,
               password: $scope.password,
               _csrf: $scope._csrf
           }
         }).success(function(data, status, headers, config) {
-          $scope.data = data;
+          var user = data;
           if (data.loginSuccess === 'true') {
-            $location.path('/');
+            console.log("login success");
+            $cookieStore.put('user', user);
+            $cookieStore.put('signedIn', "true");
+            $window.location.reload();
+            $location.path('/speakrs');
           } else {
+            console.log("login fail");
             $location.path('/login');
+            $cookieStore.put('signedIn', "");
           }
 
         }).error(function(data, status, headers, config) {
@@ -43,8 +46,8 @@ angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
       });
     }
 }])
-.controller('SignupCtrl', ['$scope', '$http', '$cookieStore', '$location',
-  function($scope, $http, $cookieStore, $location) {
+.controller('SignupCtrl', ['$scope', '$http', '$cookieStore', '$location', '$window',
+  function($scope, $http, $cookieStore, $location, $window) {
     $scope.userSignup = function () {
       console.log("user signing up ...");
       var apiurl = "http://localhost:1337";
@@ -63,6 +66,7 @@ angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
         console.log(response);
         $cookieStore.put('user', response);
         // redirect to /speakrs
+        $window.location.reload();
         $location.path('/speakrs');
       }).error(function (err) {
         $cookieStore.put('signedin', '');
@@ -71,37 +75,62 @@ angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
       });
     }
 }])
-.controller('LogoutCtrl', ['$scope', '$cookieStore', 
-  function($scope, $cookieStore) {
+.controller('LogoutCtrl', ['$scope', '$cookieStore', '$location', '$window',
+  function($scope, $cookieStore, $location, $window) {
     $scope.username = "uzername";
     $scope.userLogout = function (user) {
-      $cookieStore.put('signedin', '');
-      console.log($cookieStore.get('signedin'));
+      $cookieStore.put("signedin", "");
+      $cookieStore.put("notSignedIn", "true");
+      $cookieStore.remove("user");
+      $cookieStore.remove("username");
+      console.log($cookieStore.get("signedin"));
       console.log("logged out");
+      $window.location.reload();
+      $location.path('/');
     }
 }])
 .controller('MeCtrl', ['$scope', 
   function($scope) {
     $scope.me = "Imran";
 }])
-.controller('SpeakrsCtrl', ['$scope', '$cookieStore',
-  function($scope, $cookieStore) {
+.controller('SpeakrsCtrl', ['$scope', '$cookieStore',  '$http',
+  function($scope, $cookieStore, $http) {
     var user = $cookieStore.get('user');
     $scope.user = user;
-    $scope.speakrs = 'speakr list';
+    var apiurl = 'http://localhost:1337';
+    $http({
+      url: apiurl + '/speakrs',
+      method: "GET"
+    }).success(function (response) {
+      console.log(response);
+      $scope.speakrs = response;
+      $scope.speakrs.talks = 
+    }).error(function (err) {
+      console.log(err);
+    });
+
+    $scope.getTalks = function (speakrId) {
+      $http({
+        url: ""
+      });
+      $scope.talks
+    }
 }])
 
 /* user session controller */
 .controller('HeaderCtrl', ['$scope', '$cookieStore',
   function($scope, $cookieStore) {
-    $scope.signedIn= $cookieStore.get('signedin');
+    $scope.signedIn = $cookieStore.get('signedin');
     console.log("HeaderCtrl: $scope.signedIn is "+String($scope.signedIn));
-      if ($scope.signedIn === 'true') {
-        $scope.notSignedIn = '';
-      } else {
-        $scope.notSignedIn = 'true';
-        $scope.signedIn = '';
-      }
+    if ($scope.signedIn === 'true') {
+      $scope.notSignedIn = '';
+      $scope.user = $cookieStore.get('user');
+      console.log("$cookieStore.get('user'):");
+      console.log($scope.user);
+    } else {
+      $scope.notSignedIn = 'true';
+      $scope.signedIn = '';
+    }
 }])
 .controller('SessionCtrl', ['$scope', '$cookieStore', 
   function($scope, $cookieStore) {

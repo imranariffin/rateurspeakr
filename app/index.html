@@ -21,7 +21,8 @@
     <li><a href="#/talks">talks</a></li>
     <li ng-show="notSignedIn"><a href="#/login">login</a></li>
     <li ng-show="notSignedIn"><a href="#/signup">signup</a></li>
-    <li ng-controller="LogoutCtrl" ng-show="signedIn"><a href="#/" ng-click="userLogout()">logout</a></li>
+    <li ng-show="signedIn" ng-controller="LogoutCtrl" ><a href="#/" ng-click="userLogout()">logout</a></li>
+    <li ng-show="signedIn">hi, {{user.username}}!</li>
   </ul>
 
   <div class="container">

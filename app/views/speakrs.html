@@ -1,8 +1,12 @@
 <p>
-	Hi, {{user.username}}!<br>
-	User info: <br>
-	{{user}} <br>
-
-	Speakrs: <br>
-	{{speakrs}}
+	<div class="panel panel-primary" ng-repeat="speakr in speakrs">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">{{speakr.name}}</h3>
+	  </div>
+	  <div class="panel-body" ng-init="talks = get_talks(speakr._id)">
+	  	<!-- <div ng-repeat="talk in talks"> -->
+	    {{talk}}
+	    <!-- </div> -->
+	  </div>
+	</div>
 </p>
