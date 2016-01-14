@@ -104,17 +104,27 @@ angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
     }).success(function (response) {
       console.log(response);
       $scope.speakrs = response;
-      $scope.speakrs.talks = 
+      $scope.speakrs.forEach(function (speakr) {
+        $http({
+          url: apiurl + "/talks?speakrId=" + speakr._id,
+          method: "GET"
+        }).success(function (response) {
+          speakr.talks = response;
+        }).error(function (err) {
+          console.log(err);
+        });
+      });
+      // $scope.speakrs.talks = 
     }).error(function (err) {
       console.log(err);
     });
 
-    $scope.getTalks = function (speakrId) {
-      $http({
-        url: ""
-      });
-      $scope.talks
-    }
+    // $scope.getTalks = function (speakrId) {
+    //   $http({
+    //     url: ""
+    //   });
+    //   $scope.talks
+    // }
 }])
 
 /* user session controller */
