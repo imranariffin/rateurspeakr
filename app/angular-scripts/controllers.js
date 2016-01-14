@@ -1,5 +1,10 @@
 'use strict';
 
+// // DEV
+// var apiurl = "http://localhost:1337"
+// PRODUCTION
+var apiurl = "http://ruspeakr-api.herokuapp.com"
+
 angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
 
 /* CONTROLLERS */
@@ -11,7 +16,6 @@ angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
     $scope.userLogin = function (user) {
       $cookieStore.put('signedin', 'true');
       console.log("user signing in ...");
-      var apiurl = "http://localhost:1337";
       $http({
           url:  apiurl + "/login",
           method: "POST",
@@ -50,7 +54,6 @@ angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
   function($scope, $http, $cookieStore, $location, $window) {
     $scope.userSignup = function () {
       console.log("user signing up ...");
-      var apiurl = "http://localhost:1337";
       $http({
         url: apiurl + '/signup',
         method: 'POST',
@@ -97,7 +100,6 @@ angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
   function($scope, $cookieStore, $http) {
     var user = $cookieStore.get('user');
     $scope.user = user;
-    var apiurl = 'http://localhost:1337';
     $http({
       url: apiurl + '/speakrs',
       method: "GET"
@@ -151,7 +153,6 @@ angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
 /* try CORS from local server api */
 .controller('CorsCtrl', ['$scope', '$http', 
   function($scope, $http) {
-    var apiurl = "http://localhost:1337";
     $http({
         url:  apiurl + "/get-cors",
         method: "GET",
