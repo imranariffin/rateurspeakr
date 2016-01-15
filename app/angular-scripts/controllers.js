@@ -128,6 +128,10 @@ angular.module('myApp.controllers', ['ngRoute', 'ngCookies'])
     //   $scope.talks
     // }
 }])
+.controller('TypeformCtrl', ['$scope', 
+  function($scope) {
+    console.log("typeform");
+}])
 
 /* user session controller */
 .controller('HeaderCtrl', ['$scope', '$cookieStore',
