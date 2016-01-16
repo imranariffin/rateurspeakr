@@ -29,10 +29,10 @@ config(['$routeProvider', function($routeProvider) {
   		templateUrl: 'views/speakrs.html',
   		controller: 'SpeakrsCtrl'
   	}).
-    when('/typeform', {
-      templateUrl: 'views/typeform.html',
-      controller: 'TypeformCtrl'
-    }).
+    // when('/typeform', {
+    //   templateUrl: 'views/typeform.html',
+    //   controller: 'TypeformCtrl'
+    // }).
 
   	/* try CORS from local server api */
   	when('/get-cors', {
